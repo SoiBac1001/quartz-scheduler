@@ -7,8 +7,6 @@ import com.example.demospringquartz.service.EmailSchedulerService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.quartz.*;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.time.ZonedDateTime;
@@ -25,11 +23,12 @@ public class EmailSchedulerServiceImpl implements EmailSchedulerService {
     public EmailResponse scheduleEmail(EmailRequest emailRequest) {
         try {
             ZonedDateTime dateTime = ZonedDateTime.of(emailRequest.getDateTime(), emailRequest.getZoneId());
-            if(dateTime.isBefore(ZonedDateTime.now())) {
+
+            if(dateTime.isBefore(ZonedDateTime.now())){
                 // throw exception
                 return EmailResponse.builder()
                         .success(false)
-                        .message("dateTime must be after current time")
+                        .message("dateTime must be after current time.")
                         .build();
             }
 
@@ -37,14 +36,18 @@ public class EmailSchedulerServiceImpl implements EmailSchedulerService {
             Trigger trigger = buildTrigger(jobDetail, dateTime);
             scheduler.scheduleJob(jobDetail, trigger);
 
-            return new EmailResponse(true,
-                    jobDetail.getKey().getName(), jobDetail.getKey().getGroup(), "Email Scheduled Successfully!");
-        } catch (SchedulerException ex) {
-            log.error("Error scheduling email", ex);
-
+            JobKey jobKey = jobDetail.getKey();
+            return EmailResponse.builder()
+                    .success(true)
+                    .jobId(jobKey.getName())
+                    .jobGroup(jobKey.getGroup())
+                    .message("Email scheduled successfully !")
+                    .build();
+        } catch (SchedulerException e) {
+            log.error("Error while scheduling email: ", e);
             return EmailResponse.builder()
                     .success(false)
-                    .message("dateTime must be after current time")
+                    .message("Error while scheduling email. Please try again later !")
                     .build();
         }
     }
