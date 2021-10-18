@@ -64,10 +64,15 @@ public class EmailSchedulerServiceImpl implements EmailSchedulerService {
                 .withDescription("Send Email Job")
                 .usingJobData(jobDataMap)
                 .storeDurably()
+//                .requestRecovery()
                 .build();
     }
 
     private Trigger buildTrigger(JobDetail jobDetail, ZonedDateTime startAt) {
+        JobDataMap jobDataMap = new JobDataMap();
+
+        jobDataMap.put("attach", "file.pdf");
+
         return TriggerBuilder.newTrigger()
                 .forJob(jobDetail)
                 .withIdentity(jobDetail.getKey().getName(), "email-triggers")
@@ -75,6 +80,7 @@ public class EmailSchedulerServiceImpl implements EmailSchedulerService {
                 .startAt(Date.from(startAt.toInstant()))
                 .withSchedule(SimpleScheduleBuilder.simpleSchedule()
                         .withMisfireHandlingInstructionFireNow())
+                .usingJobData(jobDataMap)
                 .build();
     }
 }

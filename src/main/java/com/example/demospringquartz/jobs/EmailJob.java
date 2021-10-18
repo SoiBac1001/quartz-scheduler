@@ -24,7 +24,10 @@ public class EmailJob extends QuartzJobBean {
 
     @Override
     protected void executeInternal(JobExecutionContext jobExecutionContext) throws JobExecutionException {
+        // It is a merge of the JobDataMap found on the JobDetail and the one found on the Trigger,
+        // with the values in the latter overriding any same-named values in the former.
         JobDataMap jobDataMap = jobExecutionContext.getMergedJobDataMap();
+        JobDataMap jobDataMap1 = jobExecutionContext.getJobDetail().getJobDataMap();
 
         String recipientEmail = jobDataMap.getString("email");
         String subject = jobDataMap.getString("subject");
