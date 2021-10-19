@@ -78,8 +78,11 @@ public class EmailSchedulerServiceImpl implements EmailSchedulerService {
                 .withIdentity(jobDetail.getKey().getName(), "email-triggers")
                 .withDescription("Send Email Trigger")
                 .startAt(Date.from(startAt.toInstant()))
+//                .endAt()
                 .withSchedule(SimpleScheduleBuilder.simpleSchedule()
-                        .withMisfireHandlingInstructionFireNow())
+                        .withMisfireHandlingInstructionFireNow()
+//                        .repeatForever()
+                )
                 .usingJobData(jobDataMap)
                 .build();
     }
