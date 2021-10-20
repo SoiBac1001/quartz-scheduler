@@ -16,9 +16,15 @@ public class SchedulerJobInfo {
 
     private String jobName;
     private String jobGroup;
-    private String jobStatus;
+
+    private String jobPackage;
     private String jobClass;
+
+    private String jobStatus;
     private String cronExpression;
+    private int priority;
+    private String remark;
+    private String disabled;
     private String interfaceName;
     private Long repeatTime;
     private Boolean cronJob;
