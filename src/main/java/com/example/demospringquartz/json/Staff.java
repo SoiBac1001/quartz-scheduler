@@ -1,5 +1,6 @@
 package com.example.demospringquartz.json;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonView;
 import lombok.Getter;
 import lombok.Setter;
@@ -12,9 +13,11 @@ import java.util.Map;
 @Getter
 public class Staff {
     @JsonView(CompanyViews.Normal.class)
+    @JsonIgnore
     private String name;
 
     @JsonView(CompanyViews.Normal.class)
+    @JsonIgnore
     private int age;
 
     // two views
@@ -25,6 +28,7 @@ public class Staff {
     private List<String> skills;
 
 //    @JsonView(CompanyViews.HR.class)
+    @JsonIgnore
     private Map<String, BigDecimal> salary;
 
     // getters , setters , boring stuff

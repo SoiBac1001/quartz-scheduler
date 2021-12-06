@@ -7,6 +7,7 @@ import com.example.demospringquartz.service.SchedulerJobService;
 import lombok.AllArgsConstructor;
 import org.quartz.Scheduler;
 import org.springframework.context.ApplicationContext;
+import org.springframework.data.domain.Sort;
 import org.springframework.scheduling.quartz.SchedulerFactoryBean;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
@@ -24,7 +25,7 @@ public class SchedulerJobServiceImpl implements SchedulerJobService {
     @Override
     public void startAllSchedulers() {
         Scheduler scheduler = schedulerFactoryBean.getScheduler();
-        List<SchedulerJobInfo> jobInfoList = schedulerRepository.findAllOrderByJobName();
+        List<SchedulerJobInfo> jobInfoList = schedulerRepository.findAll(Sort.by(Sort.Order.asc("jobName")));
         if(!CollectionUtils.isEmpty(jobInfoList)){
 
         }
