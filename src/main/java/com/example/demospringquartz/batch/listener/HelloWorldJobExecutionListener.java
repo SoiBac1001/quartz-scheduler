@@ -1,4 +1,4 @@
-package com.example.demospringquartz.listener;
+package com.example.demospringquartz.batch.listener;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.batch.core.JobExecution;

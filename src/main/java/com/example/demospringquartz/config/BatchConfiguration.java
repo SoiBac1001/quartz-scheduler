@@ -1,7 +1,10 @@
 package com.example.demospringquartz.config;
 
-import com.example.demospringquartz.listener.HelloWorldJobExecutionListener;
-import com.example.demospringquartz.listener.HelloWorldStepExecutionListener;
+import com.example.demospringquartz.batch.listener.HelloWorldJobExecutionListener;
+import com.example.demospringquartz.batch.listener.HelloWorldStepExecutionListener;
+import com.example.demospringquartz.batch.processor.InMemItemProcessor;
+import com.example.demospringquartz.batch.reader.InMemReader;
+import com.example.demospringquartz.batch.writer.ConsoleItemWriter;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.batch.core.Job;
@@ -22,18 +25,32 @@ import org.springframework.context.annotation.Configuration;
 @Slf4j
 public class BatchConfiguration {
     private final JobBuilderFactory jobBuilderFactory;
-
     private final StepBuilderFactory steps;
-
     private final HelloWorldJobExecutionListener helloWorldJobExecutionListener;
-
     private final HelloWorldStepExecutionListener helloWorldStepExecutionListener;
+    private final InMemItemProcessor inMemItemProcessor;
+
+    @Bean
+    public InMemReader reader() {
+        return new InMemReader();
+    }
 
     @Bean
     public Step step1() {
         return steps.get("step1")
                 .listener(helloWorldStepExecutionListener)
                 .tasklet(helloWorldTasklet())
+                .build();
+    }
+
+    @Bean
+    public Step step2() {
+        return steps.get("step2").
+                <Integer, Integer>
+                chunk(3)
+                .reader(reader())
+                .processor(inMemItemProcessor)
+                .writer(new ConsoleItemWriter())
                 .build();
     }
 
@@ -57,6 +74,7 @@ public class BatchConfiguration {
         return jobBuilderFactory.get("helloWorldJob")
                 .listener(helloWorldJobExecutionListener)
                 .start(step1())
+                .next(step2())
                 .build();
     }
 }

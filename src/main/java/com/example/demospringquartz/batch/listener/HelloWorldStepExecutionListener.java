@@ -1,8 +1,7 @@
-package com.example.demospringquartz.listener;
+package com.example.demospringquartz.batch.listener;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.batch.core.*;
-import org.springframework.batch.item.ExecutionContext;
 import org.springframework.stereotype.Component;
 
 @Slf4j
@@ -10,8 +9,9 @@ import org.springframework.stereotype.Component;
 public class HelloWorldStepExecutionListener implements StepExecutionListener {
     @Override
     public void beforeStep(StepExecution stepExecution) {
-        log.info("This is from before step execution {}", stepExecution.getJobExecution().getExecutionContext());
-        log.info("Inside step - print job parameter {}", stepExecution.getJobExecution().getJobParameters());
+        JobExecution jobExecution = stepExecution.getJobExecution();
+        log.info("This is from before step execution {}", jobExecution.getExecutionContext());
+        log.info("Inside step - print job parameter {} - jobId {}", jobExecution.getJobParameters(), jobExecution.getJobId());
     }
 
     @Override
