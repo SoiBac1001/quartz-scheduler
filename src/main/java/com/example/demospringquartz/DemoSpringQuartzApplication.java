@@ -15,43 +15,9 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
 @SpringBootApplication
-@EnableBatchProcessing
 @AllArgsConstructor
 public class DemoSpringQuartzApplication {
-    private final JobBuilderFactory jobBuilderFactory;
-
-    private final StepBuilderFactory steps;
-
     public static void main(String[] args) {
         SpringApplication.run(DemoSpringQuartzApplication.class, args);
-    }
-
-    @Bean
-    public Step step1() {
-        return steps.get("step1")
-                .tasklet(helloWorldTasklet())
-                .build();
-    }
-
-    private Tasklet helloWorldTasklet() {
-        return new Tasklet() {
-            @Override
-            public RepeatStatus execute(StepContribution stepContribution, ChunkContext chunkContext) throws Exception {
-                System.out.println("Hello World");
-                return RepeatStatus.FINISHED;
-            }
-        };
-
-        /*return (stepContribution, chunkContext) -> {
-            System.out.println("Hello World");
-            return RepeatStatus.FINISHED;
-        };*/
-    }
-
-    @Bean
-    Job helloWorldJob() {
-        return jobBuilderFactory.get("helloWorldJob")
-                .start(step1())
-                .build();
     }
 }
