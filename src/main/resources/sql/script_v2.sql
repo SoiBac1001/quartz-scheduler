@@ -52,3 +52,7 @@ ADD COLUMN PRIORITY INT;
 
 ALTER TABLE SCHEDULER_JOB_INFO
 ADD COLUMN DISABLED BOOLEAN;
+
+SELECT * FROM quartz_demo.batch_job_execution;
+SELECT * FROM quartz_demo.batch_job_instance;
+SELECT * FROM quartz_demo.batch_job_execution_params;
