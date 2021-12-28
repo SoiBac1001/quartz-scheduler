@@ -26,6 +26,7 @@ import org.springframework.batch.item.file.transform.LineTokenizer;
 import org.springframework.batch.repeat.RepeatStatus;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.FileSystemResource;
 
 @EnableBatchProcessing
@@ -60,8 +61,9 @@ public class BatchConfiguration {
         return steps.get("step2").
                 <Integer, Integer>
                 chunk(3)
-                .reader(reader())
-                .processor(inMemItemProcessor)
+//                .reader(reader())
+                .reader(flatFileItemReader())
+//                .processor(inMemItemProcessor)
                 .writer(new ConsoleItemWriter())
                 .build();
     }
@@ -84,7 +86,7 @@ public class BatchConfiguration {
     public FlatFileItemReader flatFileItemReader() {
         FlatFileItemReader reader = new FlatFileItemReader();
         // step 1: let reader know where is the file ?
-        reader.setResource(new FileSystemResource("input/product.csv"));
+        reader.setResource(new ClassPathResource("input/product.csv"));
 
         // create the line mapper
         reader.setLineMapper(
