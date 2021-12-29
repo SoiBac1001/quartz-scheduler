@@ -68,6 +68,16 @@ public class BatchConfiguration {
                 .build();
     }
 
+    @Bean
+    public Step step3() {
+        return steps.get("step3")
+                .<Integer, Integer>chunk(3)
+                .reader(reader())
+                .processor(inMemItemProcessor)
+                .writer(new ConsoleItemWriter())
+                .build();
+    }
+
     private Tasklet helloWorldTasklet() {
         return new Tasklet() {
             @Override
