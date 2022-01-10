@@ -65,7 +65,7 @@ public class BatchConfiguration {
                 chunk(3)
 //                .reader(reader())
                 .reader(flatFileItemReader(null))
-//                .processor(inMemItemProcessor)
+                .processor(inMemItemProcessor)
                 .writer(new ConsoleItemWriter())
                 .build();
     }
@@ -98,7 +98,7 @@ public class BatchConfiguration {
     @StepScope
     @Bean
     public FlatFileItemReader flatFileItemReader(
-            @Value("#{jobParameters['newInputFile1']}")
+            @Value("#{jobParameters['inputFile']}")
             FileSystemResource inputFile
     ) {
         FlatFileItemReader reader = new FlatFileItemReader();

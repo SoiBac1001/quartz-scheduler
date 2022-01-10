@@ -56,6 +56,9 @@ ADD COLUMN DISABLED BOOLEAN;
 SELECT * FROM quartz_demo.batch_job_execution;
 SELECT * FROM quartz_demo.batch_job_instance;
 SELECT * FROM quartz_demo.batch_job_execution_params;
+SELECT * FROM quartz_demo.batch_job_execution_seq;
+SELECT * FROM quartz_demo.batch_job_execution_context;
+
 SELECT * FROM quartz_demo.batch_step_execution;
 SELECT * FROM quartz_demo.batch_step_execution_context;
-SELECT * FROM quartz_demo.batch_step_execution;
+SELECT * FROM quartz_demo.batch_step_execution_seq;
