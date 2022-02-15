@@ -52,8 +52,9 @@ public class JsonPathUnitTest {
             default:
                 System.out.println("warning");
         }
+//        String jsonArray5 = JsonPath.read(json, "$.PDS_0105[1]").toString();
         String jsonArray3 = JsonPath.read(json, "$.items.book[*].a.PDS_0005[1]").toString();
-        String jsonArray4 = JsonPath.read(json, "$.items.book[*].a.PDS_0005[1]");
+//        String jsonArray4 = JsonPath.read(json, "$.items.book[*].a.PDS_0005[1]");
 //        String jsonArray2 = JsonPath.read(json, "$.items.book.[*].a[*]");
         String valueAuthor = getStringValueByKeyWithRegExr(jsonArray3, generateRegExrByKey("author"));
         Object jsonArray0 = JsonPath.read(json, "$.items.book[0]");

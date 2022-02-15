@@ -98,12 +98,13 @@ public class BatchConfiguration {
     @StepScope
     @Bean
     public FlatFileItemReader flatFileItemReader(
-            @Value("#{jobParameters['inputFile']}")
-            FileSystemResource inputFile
+            @Value("#{jobParameters['fileInput']}")
+            FileSystemResource fileInput
     ) {
         FlatFileItemReader reader = new FlatFileItemReader();
         // step 1: let reader know where is the file ?
-        reader.setResource(inputFile);
+//        reader.setResource(fileInput);
+        reader.setResource(new ClassPathResource("input/product.csv"));
 
         // create the line mapper
         reader.setLineMapper(
